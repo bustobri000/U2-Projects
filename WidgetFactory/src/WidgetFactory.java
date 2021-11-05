@@ -1,3 +1,6 @@
+import javax.swing.*;
+import java.text.DecimalFormat;
+
 public class WidgetFactory {
 
     /*
@@ -28,4 +31,39 @@ public class WidgetFactory {
      Profit: $760.00
 
      */
+
+    public static void main(String[] args) {
+        int desiredWidgets = getInput("Please insert the number of widgets you desire to produce.");
+        int days = wid2Days(desiredWidgets);
+        double widgetCost = desiredWidgets * 10.0;
+        double productionCost = proCost(days);
+        outputResults(desiredWidgets, days, widgetCost, productionCost);
+    }
+
+    //prompt for number of widgets
+    public static int getInput(String prompt){
+        return Integer.parseInt(JOptionPane.showInputDialog(prompt));
+    }
+
+
+    //take the widgets and turn them into the hours needed to produce said widgets and round up.
+   public static int wid2Days(int widgets){
+        double hours = widgets / 10.0;
+        return (int)Math.ceil(hours /  16.0);
+    }
+
+    /* turn days into the amount of workers needed to pay on those FULL days,
+    Don't ask why I turned widgets to hours to days, and then immediately turned days back to hours.
+    */
+    public static double proCost(int days){
+        return (16 * 16.5 * 5 * days);
+    }
+
+    //display message
+    public static void outputResults(int widgets, int days, double wCost, double pCost){
+        DecimalFormat round = new DecimalFormat("#,##0.00");
+        String message = "Widgets: " + widgets + "\nDays: " + days + "\nCost of Widgets: $" + round.format(wCost) + "\nCost of Production: $" + round.format(pCost) + "\nProfit: $" +  round.format(wCost - pCost);
+        JOptionPane.showMessageDialog(null, message);
+    }
+
 }
